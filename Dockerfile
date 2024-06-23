@@ -47,14 +47,14 @@ RUN ln -s /usr/bin/php83 /usr/bin/php
 
 RUN curl -sS https://getcomposer.org/installer -o composer-setup.php
 RUN php composer-setup.php --install-dir=/usr/local/bin --filename=composer
-RUN rm -rf composer-setup.php
+RUN rm -rf composer-setup.php 
 
 RUN mkdir -p /run/php/
 RUN touch /run/php/php8.3-fpm.pid
 COPY ./config/php-fpm.conf /usr/local/etc/php-fpm.conf
 COPY ./config/php.ini /usr/local/etc/php/php.ini
 
-EXPOSE 8000
+EXPOSE 80
 
 
 CMD ["php", "-a"]
