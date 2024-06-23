@@ -1,0 +1,51 @@
+
+FROM php:8.3-fpm-alpine
+
+
+RUN apk add --no-cache \
+    bash \
+    zip \
+    unzip \
+    curl \
+    git \
+    nodejs \
+    npm
+
+# Add install-php-extensions script and make it executable
+ADD https://github.com/mlocati/docker-php-extension-installer/releases/latest/download/install-php-extensions /usr/local/bin/
+RUN chmod +x /usr/local/bin/install-php-extensions
+
+# Install PHP extensions using install-php-extensions script
+RUN install-php-extensions \
+    pdo_pgsql \
+    zip \
+    gd \
+    mbstring \
+    curl \
+    xml \
+    bcmath \
+    pdo \
+    swoole \
+    redis
+
+RUN ln -s /usr/local/bin/php /usr/bin/php
+
+
+RUN curl -sS https://getcomposer.org/installer -o composer-setup.php
+RUN php composer-setup.php --install-dir=/usr/local/bin --filename=composer
+RUN rm -rf composer-setup.php 
+
+
+RUN mkdir -p /run/php/
+RUN touch /run/php/php8.3-fpm.pid
+COPY ./config/php-fpm.conf /usr/local/etc/php-fpm.conf
+COPY ./config/php.ini /usr/local/etc/php/php.ini
+
+
+RUN chown -R www-data:www-data /var/www/html
+
+
+EXPOSE 9000
+
+
+CMD ["php-fpm"]
