@@ -1,6 +1,13 @@
 
 FROM php:8.3-fpm-alpine
+LABEL maintainer="Bintang Kumarasakti <bintangkumarasakti@mail.ugm.ac.id>"
+LABEL org.opencontainers.image.description "An base image that ready for Laravel project."
 
+ARG WWWGROUP=1000
+ARG WWWUSER=1000
+ARG NODE_VERSION=18
+ARG POSTGRES_VERSION=15
+ENV TZ=UTC
 
 RUN apk add --no-cache \
     bash \
