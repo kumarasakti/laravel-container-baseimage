@@ -1,4 +1,6 @@
 FROM php:8.3-fpm-alpine3.20
+LABEL maintainer="Bintang Kumarasakti <bintangkumarasakti@mail.ugm.ac.id>"
+LABEL org.opencontainers.image.description "An base image that ready for Laravel project."
 
 ARG WWWGROUP=1000
 ARG WWWUSER=1000
